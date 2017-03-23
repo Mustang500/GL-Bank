@@ -10,11 +10,11 @@ package glbank;
  * @author client
  */
 public class Employee {
-    private int idemp;
-    private String firstname;
-    private String lastname;
-    private String email;
-    private char position;
+    private final int idemp;
+    private final String firstname;
+    private final String lastname;
+    private final String email;
+    private final char position;
 
     public Employee(int idemp, String firstname, String lastname, String email, char position) {
         this.idemp = idemp;
