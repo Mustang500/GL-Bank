@@ -5,6 +5,7 @@
  */
 package glbank.database;
 
+import glbank.Client;
 import glbank.Employee;
 import java.sql.Connection;
 import java.util.Date;
@@ -12,12 +13,15 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.List;
 
 
 /**
  *
- * @author client
+ * @author Adrián Matta
  */
 public class ConnectionProvider {
     private static final String USERNAME="root";
@@ -26,7 +30,7 @@ public class ConnectionProvider {
     private static final String URL="jdbc:mysql://localhost/";
     private static final String DRIVER="com.mysql.jdbc.Driver";
     
-    private Connection getConnection(){
+private Connection getConnection(){
         Connection conn=null;
         try {
             conn = DriverManager.getConnection(URL+DBNAME, USERNAME, PASSWORD);
@@ -36,8 +40,8 @@ public class ConnectionProvider {
        return conn; 
     }
     
-    public boolean isEmployeePasswordValid(String username, String password){
-        String query="SELECT idemp FROM LoginEmployee WHERE login LIKE ? AND password LIKE ?";
+public boolean isEmployeePasswordValid(String username, String password){
+        String query="SELECT idemp FROM LoginEmployee WHERE login LIKE BINARY ? AND password LIKE BINARY ?";
         Connection conn = getConnection();
         if(conn!=null){
             try {
@@ -57,8 +61,29 @@ public class ConnectionProvider {
         return false;
     }
     
-    public int getEmployeeId(String username){
-        String query="SELECT idemp FROM LoginEmployee WHERE login LIKE ?";
+public boolean isEmployeePasswordValid(int idemp, String password){
+        String query="SELECT idemp FROM LoginEmployee WHERE idemp = ? AND password LIKE BINARY ?";
+        Connection conn = getConnection();
+        if(conn!=null){
+            try {
+                 PreparedStatement ps= conn.prepareStatement(query);
+                 ps.setInt(1, idemp);
+                 ps.setString(2, password);
+                 ResultSet rs = ps.executeQuery();
+                 boolean ret=rs.next();
+                 conn.close();
+                 
+                 return ret;
+                 
+            }catch(SQLException ex){
+                System.out.println("Error: "+ex.toString());
+            }
+        }
+        return false;
+    }
+    
+public int getEmployeeId(String username){
+        String query="SELECT idemp FROM LoginEmployee WHERE login LIKE BINARY ?";
         Connection conn = getConnection();
         int id=-1;
         if(conn!=null){
@@ -77,7 +102,7 @@ public class ConnectionProvider {
         return id;
     }
     
-    public void logEmployeeAccess(int id){
+public void logEmployeeAccess(int id){
         String query="INSERT INTO historyloginemployee(idemp,logindate) "+
                 " VALUES (?,?)";
         String date=getDateTime();
@@ -96,7 +121,7 @@ public class ConnectionProvider {
         
     }
     
-    public String getDateTime(){
+public String getDateTime(){
         Date date = new Date();
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         String dateString=sdf.format(date);
@@ -104,7 +129,7 @@ public class ConnectionProvider {
                 
     }
     
-    public Employee getEmployee(int id){
+public Employee getEmployee(int id){
         String query = "SELECT * FROM Employees WHERE idemp = ?";
         Employee employee = null;
         Connection conn = getConnection();
@@ -129,15 +154,47 @@ public class ConnectionProvider {
         
         return employee;
     }
-}
-
-public void chancePassword(int idemp,String newPassword){
-        String query = "UPDATE LoginEmployee SET Password=? WHERE idemp=?";
-       Connection conn= getConnection();
-       if(conn!=null){
-           try(PreparedStatement ps =conn.prepareStatement(query)){
-               
-           }
-       }
+    
+public void changePassword(int idemp, String newPassword){
+        String query = "UPDATE LoginEmployee SET password=? WHERE idemp=?";
+        Connection conn=getConnection();
+        if(conn!=null){
+            try(PreparedStatement ps=conn.prepareStatement(query)){
+            ps.setString(1, newPassword);
+            ps.setInt(2, idemp);
+            ps.execute();
+            conn.close();
+            }catch(SQLException ex){
+                System.out.println("Error: "+ex.toString());
+            }
+        }
     }
-
+    
+public List<Client> getListOfAllClients(){
+        String query = "SELECT * FROM Clients "+
+                " INNER JOIN ClientDetails ON Clients.idc=ClientDetails.idc "+
+                " WHERE disable = 'F'"+
+                " ORDER BY lastname, firstname";
+        Connection conn=getConnection();
+        List<Client> list = new ArrayList<>();
+        if(conn!=null){
+            try(Statement statement = conn.createStatement()){
+                ResultSet rs = statement.executeQuery(query);
+                while(rs.next()){
+                    int idc=rs.getInt("Clients.idc");
+                    String firstname=rs.getString("firstname");
+                    String lastname=rs.getString("lastname");
+                    Date dob = rs.getDate("dob");
+                    Client client = new Client(idc, lastname, firstname,dob);
+                    list.add(client);
+                 
+                }
+                 conn.close();
+            }catch(SQLException ex){
+                 System.out.println("Error: "+ex.toString());   
+            }
+            
+        }
+        return list;
+    }
+}

@@ -7,16 +7,16 @@ package glbank;
 
 /**
  *
- * @author client
+ * @author Adrián Matta
  */
 public class Employee {
-    private final int idemp;
-    private final String firstname;
-    private final String lastname;
-    private final String email;
-    private final char position;
+        private final int idemp;
+        private final String firstname;
+        private final String lastname;
+        private final String email;
+        private final char position;
 
-    public Employee(int idemp, String firstname, String lastname, String email, char position) {
+public Employee(int idemp, String firstname, String lastname, String email, char position) {
         this.idemp = idemp;
         this.firstname = firstname;
         this.lastname = lastname;
@@ -24,23 +24,23 @@ public class Employee {
         this.position = position;
     }
 
-    public int getIdemp() {
+public int getIdemp() {
         return idemp;
     }
 
-    public String getFirstname() {
+public String getFirstname() {
         return firstname;
     }
 
-    public String getLastname() {
+public String getLastname() {
         return lastname;
     }
 
-    public String getEmail() {
+public String getEmail() {
         return email;
     }
 
-    public char getPosition() {
+public char getPosition() {
         return position;
     }
     
