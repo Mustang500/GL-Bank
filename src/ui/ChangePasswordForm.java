@@ -194,4 +194,24 @@ public class ChangePasswordForm extends javax.swing.JFrame {
     private javax.swing.JTextField jTextField2;
     private javax.swing.JTextField jTextField3;
     // End of variables declaration//GEN-END:variables
-}
+
+private boolean isPasswordValid(String newPassword) {
+        newPassword = newPassword.trim();
+        if(newPassword.length()<6)
+            return false;
+        boolean lowLetter=false;
+        boolean upperLetter=false;
+        boolean nonAlphaNum=false;
+        boolean digit=false;
+        for(int i=0;i<newPassword.length(); i++){
+            if(Character.isUpperCase(newPassword.charAt(i)))
+                    upperLetter=true;
+            if(Character.isLowerCase(newPassword.charAt(i)))
+                    lowLetter=true;
+           
+            if(Character.isDigit(newPassword.charAt(i)))
+                    digit=true;
+            
+        }
+       
+

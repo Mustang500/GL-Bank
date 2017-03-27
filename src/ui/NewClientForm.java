@@ -7,7 +7,7 @@ package ui;
 
 /**
  *
- * @author client
+ * @author Adrián Matta
  */
 public class NewClientForm extends javax.swing.JDialog {
 
