@@ -5,6 +5,7 @@
  */
 package glbank.database;
 
+import glbank.Account;
 import glbank.Client;
 import glbank.Employee;
 import java.sql.Connection;
@@ -30,7 +31,7 @@ public class ConnectionProvider {
     private static final String URL="jdbc:mysql://localhost/";
     private static final String DRIVER="com.mysql.jdbc.Driver";
     
-private Connection getConnection(){
+    private Connection getConnection(){
         Connection conn=null;
         try {
             conn = DriverManager.getConnection(URL+DBNAME, USERNAME, PASSWORD);
@@ -40,7 +41,7 @@ private Connection getConnection(){
        return conn; 
     }
     
-public boolean isEmployeePasswordValid(String username, String password){
+    public boolean isEmployeePasswordValid(String username, String password){
         String query="SELECT idemp FROM LoginEmployee WHERE login LIKE BINARY ? AND password LIKE BINARY ?";
         Connection conn = getConnection();
         if(conn!=null){
@@ -61,7 +62,7 @@ public boolean isEmployeePasswordValid(String username, String password){
         return false;
     }
     
-public boolean isEmployeePasswordValid(int idemp, String password){
+    public boolean isEmployeePasswordValid(int idemp, String password){
         String query="SELECT idemp FROM LoginEmployee WHERE idemp = ? AND password LIKE BINARY ?";
         Connection conn = getConnection();
         if(conn!=null){
@@ -82,7 +83,7 @@ public boolean isEmployeePasswordValid(int idemp, String password){
         return false;
     }
     
-public int getEmployeeId(String username){
+    public int getEmployeeId(String username){
         String query="SELECT idemp FROM LoginEmployee WHERE login LIKE BINARY ?";
         Connection conn = getConnection();
         int id=-1;
@@ -102,7 +103,7 @@ public int getEmployeeId(String username){
         return id;
     }
     
-public void logEmployeeAccess(int id){
+    public void logEmployeeAccess(int id){
         String query="INSERT INTO historyloginemployee(idemp,logindate) "+
                 " VALUES (?,?)";
         String date=getDateTime();
@@ -121,7 +122,7 @@ public void logEmployeeAccess(int id){
         
     }
     
-public String getDateTime(){
+    public String getDateTime(){
         Date date = new Date();
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         String dateString=sdf.format(date);
@@ -129,7 +130,7 @@ public String getDateTime(){
                 
     }
     
-public Employee getEmployee(int id){
+    public Employee getEmployee(int id){
         String query = "SELECT * FROM Employees WHERE idemp = ?";
         Employee employee = null;
         Connection conn = getConnection();
@@ -155,7 +156,7 @@ public Employee getEmployee(int id){
         return employee;
     }
     
-public void changePassword(int idemp, String newPassword){
+    public void changePassword(int idemp, String newPassword){
         String query = "UPDATE LoginEmployee SET password=? WHERE idemp=?";
         Connection conn=getConnection();
         if(conn!=null){
@@ -170,7 +171,7 @@ public void changePassword(int idemp, String newPassword){
         }
     }
     
-public List<Client> getListOfAllClients(){
+    public List<Client> getListOfAllClients(){
         String query = "SELECT * FROM Clients "+
                 " INNER JOIN ClientDetails ON Clients.idc=ClientDetails.idc "+
                 " WHERE disable = 'F'"+
@@ -197,10 +198,8 @@ public List<Client> getListOfAllClients(){
         }
         return list;
     }
-}
-
-
-public boolean existUsername(String username){
+    
+    public boolean existUsername(String username){
         String query="SELECT login FROM LoginClient WHERE login LIKE ?";
         Connection conn = getConnection();
         try ( PreparedStatement ps = conn.prepareStatement(query)){
@@ -208,10 +207,7 @@ public boolean existUsername(String username){
             ResultSet rs = ps.executeQuery();
             boolean ret = rs.next();
             conn.close();
-            if(ret)
-                return true;
-            else 
-                return false;
+            return ret;
         }catch (SQLException ex){
             System.out.println("Error: "+ex.toString()); 
             
@@ -235,7 +231,7 @@ public boolean existUsername(String username){
         String querySelect = "SELECT max(idc) AS idc FROM Clients "+
                 " WHERE firstname LIKE ? AND lastname LIKE ?";
         
-        try {
+        try{
             PreparedStatement ps = conn.prepareStatement(query);
             ps.setString(1, client.getFirstname());
             ps.setString(2, client.getLastname());
@@ -284,10 +280,132 @@ public boolean existUsername(String username){
             ps.setString(6, client.getEmail());
             ps.setString(7, client.getCity());
             ps.execute();
-            
+            conn.close();
          }catch(SQLException ex){
              System.out.println("Error: "+ex.toString());
          }
     }
+
+    public Client getClient(int idc){
+        String query = "SELECT * FROM Clients AS cl "+
+                " INNER JOIN ClientDetails AS cd ON cl.idc=cd.idc "+
+                " INNER JOIN LoginClient AS lc ON lc.idc=cl.idc "+
+                " WHERE cl.idc=?";
+        Connection conn=getConnection();
+        try{
+           PreparedStatement ps = conn.prepareStatement(query);
+           ps.setInt(1, idc);
+           ResultSet rs=ps.executeQuery();
+           if(rs.next()){
+               String firstname = rs.getString("firstname");
+               String lastname = rs.getString("lastname");
+               String email = rs.getString("email");
+               String street = rs.getString("street");
+               String city = rs.getString("city");
+               String postcode = rs.getString("postcode");
+               String login = rs.getString("login");
+               Date dob = rs.getDate("dob");
+               int num = rs.getInt("housenumber");
+               boolean disable = rs.getString("disable").toUpperCase().charAt(0)=='T';
+               boolean blocked = rs.getString("blocked").toUpperCase().charAt(0)=='T';
+                           
+               Client client = new Client(idc, lastname, firstname, email, street, num, postcode, login, disable, blocked, dob,city );
+               conn.close();
+               return client;
+           }   
+           
+        }catch(SQLException ex){
+            System.out.println("Error: "+ex.toString());
+        }
+        return null;
+    }
+    
+    public List<Account> getAccounts(int idc){
+        String query = "SELECT * FROM Accounts WHERE idc=?";
+        Connection conn=getConnection();
+        try {
+            PreparedStatement ps = conn.prepareStatement(query);
+            ps.setInt(1, idc);
+            ResultSet rs= ps.executeQuery();
+            List<Account> list = new ArrayList<>();
+            while(rs.next()){
+                Account account = new Account(rs.getLong("idacc"), idc, rs.getFloat("balance"));
+                list.add(account);
+            }
+            conn.close();
+            return list;
+        }catch(SQLException ex){
+            System.out.println("Error: "+ex.toString());
+        }
+        return null;
+    }
+    
+    public boolean existsAccount(long idacc){
+        String query="SELECT idacc FROM Accounts WHERE idc = ?";
+        try {
+           Connection conn = getConnection();
+           PreparedStatement ps = conn.prepareStatement(query);
+           ps.setLong(1, idacc);
+           ResultSet rs=ps.executeQuery();
+           if(rs.next()){
+               conn.close();
+               return true;
+           }  
+           conn.close();
+        }catch(SQLException ex){
+            System.out.println("Error: "+ex.toString());
+        }
+        
+        return false;
+    }
+
+    public void insertNewAccount(int idc, long proposalAccount) {
+        String query ="INSERT INTO Accounts VALUES(?,?,?)";
+        try{
+            Connection conn = getConnection();
+            PreparedStatement ps = conn.prepareStatement(query);
+            ps.setLong(1, proposalAccount);
+            ps.setInt(2, idc);
+            ps.setFloat(3, 0);
+            ps.executeUpdate();
+            conn.close();
+        }catch(SQLException ex){
+            System.out.println("Error: "+ex.toString());
+        }
+    }
+
+    public void insertCash(long idacc, float value, int idemp) {
+        try {
+        Connection conn = getConnection();
+       
+            try {
+
+                conn.setAutoCommit(false);
+
+                updateAccount(idacc,value,conn);
+                writeLogTransaction(idacc, value, idemp,conn);
+                conn.commit();
+            }catch(SQLException ex){
+                conn.rollback();
+                System.out.println("Error: "+ex.toString());
+            }
+        }catch(SQLException ex){
+            System.out.println("Error: "+ex.toString());
+        }
+    
+    
+    }
+
+    private void updateAccount(long idacc, float value, Connection conn) throws SQLException{
+        String query="UPDATE accounts SET balance=balance+? WHERE idacc=?";
+        PreparedStatement ps = conn.prepareStatement(query);
+        ps.setFloat(1, value);
+        ps.setLong(2, idacc);
+        ps.executeUpdate();
+    }
+
+    private void writeLogTransaction(long idacc, float value, int idemp, Connection conn) {
+    }
+}
 
 

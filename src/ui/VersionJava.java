@@ -127,10 +127,8 @@ public class VersionJava extends javax.swing.JFrame {
         //</editor-fold>
 
         /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new VersionJava().setVisible(true);
-            }
+        java.awt.EventQueue.invokeLater(() -> {
+            new VersionJava().setVisible(true);
         });
     }
 
