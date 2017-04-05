@@ -115,7 +115,7 @@ public class ConnectionProviderTest {
     @Test
     public void testGetEmployeeId2() {
         System.out.println("getEmployeeId");
-        String username = "x7e7r89";
+        String username = "Mustang500";
         ConnectionProvider instance = new ConnectionProvider();
         int expResult = -1;
         int result = instance.getEmployeeId(username);
