@@ -21,7 +21,6 @@ public class PanelInfo extends javax.swing.JPanel {
     public PanelInfo(Client client) {
         initComponents();
         this.client = client;
-        initPanelInfo();
     }
 
     /**
@@ -420,7 +419,6 @@ public class PanelInfo extends javax.swing.JPanel {
     private void initPanelInfo() {
         lblFirstName.setText(client.getFirstname());
         lblLastName.setText(client.getLastname());
-        lblId.setText("#"+client.getIdc());
         lblCity.setText(client.getCity());
         lblEmail.setText(client.getEmail());
         

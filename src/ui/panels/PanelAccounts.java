@@ -54,7 +54,7 @@ public class PanelAccounts extends javax.swing.JPanel {
         jButton3 = new javax.swing.JButton();
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
-        jLabel1.setText("Account id:");
+        jLabel1.setText("Account ID:");
 
         jAccountList.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         jAccountList.addActionListener(new java.awt.event.ActionListener() {
@@ -87,6 +87,7 @@ public class PanelAccounts extends javax.swing.JPanel {
         jLabel4.setText("Cash transaction:");
 
         jLabel3.setFont(new java.awt.Font("Tahoma", 0, 19)); // NOI18N
+        jLabel3.setText("123456,56");
 
         jButton3.setText("New Account");
         jButton3.addActionListener(new java.awt.event.ActionListener() {
@@ -126,7 +127,7 @@ public class PanelAccounts extends javax.swing.JPanel {
                                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                             .addComponent(jtxtSubValue, javax.swing.GroupLayout.DEFAULT_SIZE, 90, Short.MAX_VALUE)
                                             .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
-                                .addGap(0, 141, Short.MAX_VALUE))
+                                .addGap(0, 138, Short.MAX_VALUE))
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(jAccountList, javax.swing.GroupLayout.PREFERRED_SIZE, 182, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(50, 50, 50))))))
@@ -152,7 +153,7 @@ public class PanelAccounts extends javax.swing.JPanel {
                     .addComponent(jButton2))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jButton3)
-                .addContainerGap(18, Short.MAX_VALUE))
+                .addContainerGap(16, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 

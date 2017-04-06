@@ -268,15 +268,28 @@ public class NewClientForm extends javax.swing.JDialog {
         //</editor-fold>
 
         /* Create and display the dialog */
-        java.awt.EventQueue.invokeLater(() -> {
-            NewClientForm dialog = new NewClientForm(new javax.swing.JFrame(), true);
-            dialog.addWindowListener(new java.awt.event.WindowAdapter() {
-                @Override
-                public void windowClosing(java.awt.event.WindowEvent e) {
-                    System.exit(0);
-                }
-            });
-            dialog.setVisible(true);
+        java.awt.EventQueue.invokeLater(new Runnable() {
+            @Override
+            public void run() {
+                NewClientForm dialog = new NewClientForm(new javax.swing.JFrame(), true);
+                dialog.addWindowListener(new java.awt.event.WindowAdapter() {
+                    () {
+   {
+   {
+   {
+                        NewClientForm.super();
+                        return null;
+                    }
+
+                    @Override
+                     void windowClosing(java.awt.event.WindowEvent e) {
+                        System.exit(0);
+                    }
+                        return null;
+                });
+                dialog.setVisible(true);
+                        return null;
+            }
         });
     }
 
