@@ -273,26 +273,9 @@ public class NewClientForm extends javax.swing.JDialog {
             public void run() {
                 NewClientForm dialog = new NewClientForm(new javax.swing.JFrame(), true);
                 dialog.addWindowListener(new java.awt.event.WindowAdapter() {
-                    () {
+                    ()
    {
-   {
-   {
-                        NewClientForm.super();
-                        return null;
-                    }
-
-                    @Override
-                     void windowClosing(java.awt.event.WindowEvent e) {
-                        System.exit(0);
-                    }
-                        return null;
-                });
-                dialog.setVisible(true);
-                        return null;
-            }
-        });
-    }
-
+          
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;

@@ -46,25 +46,25 @@ public class ConnectionProviderTest {
     @Test
     public void testIsEmployeePasswordValid1() {
         System.out.println("isEmployeePasswordValid");
-        String username = "Matta";
+        String username = "Adrian";
         String password = "Matta";
         ConnectionProvider instance = new ConnectionProvider();
         boolean expResult = true;
         boolean result = instance.isEmployeePasswordValid(username, password);
         assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
+      
         
     }
 
     public void testIsEmployeePasswordValid2() {
         System.out.println("isEmployeePasswordValid");
-        String username = "Matta";
+        String username = "Adrian";
         String password = "Matta";
         ConnectionProvider instance = new ConnectionProvider();
         boolean expResult = false;
         boolean result = instance.isEmployeePasswordValid(username, password);
         assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
+       
         
     }
     
@@ -77,7 +77,7 @@ public class ConnectionProviderTest {
         boolean expResult = true;
         boolean result = instance.isEmployeePasswordValid(idemp, password);
         assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
+      
         
     }
     
@@ -90,13 +90,11 @@ public class ConnectionProviderTest {
         boolean expResult = false;
         boolean result = instance.isEmployeePasswordValid(idemp, password);
         assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
+       
         
     }
     
-    /**
-     * Test of getEmployeeId method, of class ConnectionProvider.
-     */
+  
     @Test
     public void testGetEmployeeId1() {
         System.out.println("getEmployeeId");
@@ -109,26 +107,22 @@ public class ConnectionProviderTest {
        
     }
 
-    /**
-     * Test of getEmployeeId method, of class ConnectionProvider.
-     */
+  
     @Test
     public void testGetEmployeeId2() {
         System.out.println("getEmployeeId");
-        String username = "Mustang500";
+        String username = "Adrian";
         ConnectionProvider instance = new ConnectionProvider();
         int expResult = -1;
         int result = instance.getEmployeeId(username);
         assertEquals(expResult, result);
     }
     
-    /**
-     * Test of getEmployeeId method, of class ConnectionProvider.
-     */
+  
     @Test
     public void testGetEmployeeId3() {
         System.out.println("getEmployeeId");
-        String username = "Matta";
+        String username = "Adrian";
         ConnectionProvider instance = new ConnectionProvider();
         int expResult = -1;
         int result = instance.getEmployeeId(username);
@@ -137,9 +131,7 @@ public class ConnectionProviderTest {
     
     
 
-    /**
-     * Test of getEmployee method, of class ConnectionProvider.
-     */
+    
     @Test
     public void testGetEmployee() {
         System.out.println("getEmployee");
@@ -147,18 +139,16 @@ public class ConnectionProviderTest {
         ConnectionProvider instance = new ConnectionProvider();
         
         Employee result = instance.getEmployee(id);
-        assertEquals("Adrián", result.getFirstname());
+        assertEquals("Adrian", result.getFirstname());
         assertEquals("Matta", result.getLastname());
         assertEquals(2, result.getIdemp());
-        assertEquals("adrianmatta@me.com/**/", result.getEmail());
+        assertEquals("adrianmatta67@gmail.com/**/", result.getEmail());
         assertEquals('C', result.getPosition());
         
         
     }
     
-    /**
-     * Test of getEmployee method, of class ConnectionProvider.
-     */
+   
     @Test
     public void testGetClient() {
         System.out.println("getClient");
@@ -166,7 +156,7 @@ public class ConnectionProviderTest {
         ConnectionProvider instance = new ConnectionProvider();
         
         Client result = instance.getClient(id);
-        assertEquals("Adrián", result.getFirstname());
+        assertEquals("Adrian", result.getFirstname());
         assertEquals("Matta", result.getLastname());
-        assertEquals("adrianmatta@me.com", result.getEmail());    
+        assertEquals("adrianmatta67@gmail.com", result.getEmail());    
   

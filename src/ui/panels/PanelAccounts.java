@@ -8,7 +8,6 @@ package ui.panels;
 import glbank.Account;
 import glbank.database.ConnectionProvider;
 import java.util.List;
-import java.util.Random;
 import javax.swing.JOptionPane;
 
 /**
@@ -29,7 +28,7 @@ public class PanelAccounts extends javax.swing.JPanel {
         initComponents();
         this.idc=idc;
         this.idemp=idemp;
-        initAccountList();
+        initAccount();
         
     }
 
@@ -42,6 +41,7 @@ public class PanelAccounts extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        scrollPane1 = new java.awt.ScrollPane();
         jLabel1 = new javax.swing.JLabel();
         jAccountList = new javax.swing.JComboBox<>();
         jLabel2 = new javax.swing.JLabel();
@@ -173,7 +173,6 @@ public class PanelAccounts extends javax.swing.JPanel {
         if(value>=0.1){
             JOptionPane.showMessageDialog(this, "Payment ok.");
             int index=jAccountList.getSelectedIndex();
-            long idacc=list.get(index).getIdacc();
             new ConnectionProvider().insertCash(idacc,value,idemp); 
         }
     }//GEN-LAST:event_jButton1ActionPerformed
@@ -205,10 +204,11 @@ public class PanelAccounts extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel4;
     private javax.swing.JTextField jtxtAddValue;
     private javax.swing.JTextField jtxtSubValue;
+    private java.awt.ScrollPane scrollPane1;
     // End of variables declaration//GEN-END:variables
 
     private void initAccountList() {
-        ConnectionProvider conn;
+        ConnectionProvider conn = null;
         list=conn.getAccounts(idc);
         if(list.isEmpty())
             return;
@@ -216,3 +216,7 @@ public class PanelAccounts extends javax.swing.JPanel {
         list.stream().forEach((account) -> {
             jAccountList.addItem(""+account.getIdacc()+" / 2701");
         });
+
+    private void initAccount() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
