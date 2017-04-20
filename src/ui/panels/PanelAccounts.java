@@ -220,3 +220,21 @@ public class PanelAccounts extends javax.swing.JPanel {
     private void initAccount() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
+
+
+ private void initAccountList() {
+        ConnectionProvider conn = new ConnectionProvider();
+        list=null;
+        list=conn.getAccounts(idc);
+        lblBalance.setText("");
+        if(list.isEmpty())
+            return;
+        
+        jAccountList.removeAllItems();
+        list.stream().forEach((account) -> {
+            jAccountList.addItem(""+account.getIdacc()+" / 2701");
+        });
+        int index=jAccountList.getSelectedIndex();
+        lblBalance.setText(""+list.get(index).getBalance());
+    }
+}
