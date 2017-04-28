@@ -25,7 +25,7 @@ public class Client {
     private boolean blocked;
     private Date dob;
 
-public Client(int idc, String lastname, String firstname, String email, String street, int housenumber, String postcode, String username, boolean disable, boolean blocked, Date dob, String city) {
+    public Client(int idc, String lastname, String firstname, String email, String street, int housenumber, String postcode, String username, boolean disable, boolean blocked, Date dob, String city) {
         this.idc = idc;
         this.lastname = lastname;
         this.firstname = firstname;
@@ -37,63 +37,64 @@ public Client(int idc, String lastname, String firstname, String email, String s
         this.disable = disable;
         this.blocked = blocked;
         this.dob = dob;
-    }
-
-public Client(int idc, String lastname, String firstname, Date dob) {
-        this.idc=idc;
-        this.lastname=lastname;
-        this.firstname=firstname;
-        this.dob=dob;
-        this.street=this.username=this.postcode=null;
-        this.housenumber=0;
-        this.email=null;
-        this.disable=false;
-        this.blocked=false;
         this.city=city;
     }
 
-public int getIdc() {
+    public Client(int idc, String lastname, String firstname, Date dob) {
+       this.idc=idc;
+       this.lastname=lastname;
+       this.firstname=firstname;
+       this.dob=dob;
+       this.street=this.username=this.postcode=null;
+       this.housenumber=0;
+       this.email=null;
+       this.disable=false;
+       this.blocked=false;
+       this.city=null; 
+    }
+
+    public int getIdc() {
         return idc;
     }
 
-public String getLastname() {
+    public String getLastname() {
         return lastname;
     }
 
-public String getFirstname() {
+    public String getFirstname() {
         return firstname;
     }
 
-public Date getDob() {
+    public Date getDob() {
         return dob;
     }
 
-    public String getStreet() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    public int getHousenumber() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    public String getPostcode() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
     public String getEmail() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return email;
     }
 
-    public String getCity() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    public String getUsername() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public String getStreet() {
+        return street;
     }
 
     public void setIdc(int idc) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        this.idc = idc;
+    }
+
+    public int getHousenumber() {
+        return housenumber;
+    }
+
+    public String getPostcode() {
+        return postcode;
+    }
+
+    public String getCity() {
+        return city;
+    }
+
+    public String getUsername() {
+        return username;
     }
     
     

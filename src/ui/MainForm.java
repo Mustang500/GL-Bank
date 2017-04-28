@@ -5,18 +5,46 @@
  */
 package ui;
 
+import ui.panels.PanelInfo;
+import ui.panels.PanelAccounts;
+import ui.panels.PanelTransaction;
+import glbank.Client;
+import glbank.Employee;
+import glbank.database.ConnectionProvider;
+import java.util.List;
+import ui.panels.PanelCards;
+
 /**
  *
  * @author Adrián Matta
  */
 public class MainForm extends javax.swing.JFrame {
     private int idemp;
-
+    private List<Client> list;
+            
+    private ConnectionProvider conn;
     /**
      * Creates new form MainForm
      */
-    public MainForm() {
+    public MainForm(int idemp) {
         initComponents();
+        this.idemp = idemp;
+        conn=new ConnectionProvider();
+        initForm();
+    }
+    
+    private void initForm(){
+        printEmployeeName();
+        showListOfClients();
+        initTabs();
+    }
+    
+    private void printEmployeeName(){
+        Employee employee = conn.getEmployee(idemp);
+        if(employee!=null){
+            String name=employee.getFirstname()+" "+employee.getLastname();
+            lblEmployeeName.setText("Logged in user: "+name);
+        }
     }
 
     /**
@@ -28,12 +56,87 @@ public class MainForm extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jLabel1 = new javax.swing.JLabel();
+        jMenu1 = new javax.swing.JMenu();
+        jMenu2 = new javax.swing.JMenu();
+        lblEmployeeName = new javax.swing.JLabel();
+        jSeparator1 = new javax.swing.JSeparator();
+        jSeparator2 = new javax.swing.JSeparator();
+        lblClient = new javax.swing.JLabel();
+        comboListOfAllClients = new javax.swing.JComboBox<>();
+        jButton1 = new javax.swing.JButton();
+        jSeparator4 = new javax.swing.JSeparator();
+        jTabbedPane1 = new javax.swing.JTabbedPane();
+        jMenuBar1 = new javax.swing.JMenuBar();
+        jMenu3 = new javax.swing.JMenu();
+        menuChangePassword = new javax.swing.JMenuItem();
+        menuExit = new javax.swing.JMenuItem();
+        jMenu4 = new javax.swing.JMenu();
+        jMenuItem1 = new javax.swing.JMenuItem();
+
+        jMenu1.setText("jMenu1");
+
+        jMenu2.setText("jMenu2");
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jLabel1.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jLabel1.setText("Logged user: FirstName LastName");
+        lblEmployeeName.setFont(new java.awt.Font("Berlin Sans FB", 0, 18)); // NOI18N
+        lblEmployeeName.setText("Logged in user: FirstName / LastName");
+
+        lblClient.setFont(new java.awt.Font("Algerian", 0, 14)); // NOI18N
+        lblClient.setForeground(new java.awt.Color(102, 0, 0));
+        lblClient.setText("Select client:");
+
+        comboListOfAllClients.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "choose:" }));
+        comboListOfAllClients.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                comboListOfAllClientsActionPerformed(evt);
+            }
+        });
+
+        jButton1.setFont(new java.awt.Font("Berlin Sans FB", 0, 13)); // NOI18N
+        jButton1.setText("New client");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
+        jMenu3.setForeground(new java.awt.Color(102, 102, 255));
+        jMenu3.setText("Menu");
+
+        menuChangePassword.setText("Change Password");
+        menuChangePassword.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                menuChangePasswordActionPerformed(evt);
+            }
+        });
+        jMenu3.add(menuChangePassword);
+
+        menuExit.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_X, java.awt.event.InputEvent.CTRL_MASK));
+        menuExit.setText("Exit");
+        menuExit.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                menuExitActionPerformed(evt);
+            }
+        });
+        jMenu3.add(menuExit);
+
+        jMenuBar1.add(jMenu3);
+
+        jMenu4.setForeground(new java.awt.Color(102, 102, 255));
+        jMenu4.setText("About");
+
+        jMenuItem1.setText("About");
+        jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem1ActionPerformed(evt);
+            }
+        });
+        jMenu4.add(jMenuItem1);
+
+        jMenuBar1.add(jMenu4);
+
+        setJMenuBar(jMenuBar1);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -41,54 +144,132 @@ public class MainForm extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(26, 26, 26)
-                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 292, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(796, Short.MAX_VALUE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 123, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 700, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jSeparator4, javax.swing.GroupLayout.PREFERRED_SIZE, 683, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(layout.createSequentialGroup()
+                            .addComponent(lblClient)
+                            .addGap(18, 18, 18)
+                            .addComponent(comboListOfAllClients, javax.swing.GroupLayout.PREFERRED_SIZE, 191, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(layout.createSequentialGroup()
+                            .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 692, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addContainerGap(27, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(lblEmployeeName, javax.swing.GroupLayout.PREFERRED_SIZE, 423, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(178, 178, 178))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(24, 24, 24)
-                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(463, Short.MAX_VALUE))
+                .addGap(21, 21, 21)
+                .addComponent(lblEmployeeName)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblClient)
+                    .addComponent(comboListOfAllClients, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 207, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jSeparator4, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jButton1)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(MainForm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(MainForm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(MainForm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(MainForm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
+    private void menuChangePasswordActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuChangePasswordActionPerformed
+        // TODO add your handling code here:
+        ChangePasswordForm changePasswordForm = new ChangePasswordForm(this, true, idemp);
+        changePasswordForm.setVisible(true);
+    }//GEN-LAST:event_menuChangePasswordActionPerformed
 
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(() -> {
-            new MainForm().setVisible(true);
-        });
-    }
+    private void menuExitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuExitActionPerformed
+        // TODO add your handling code here:
+        this.setVisible(false);
+        System.exit(0);
+    }//GEN-LAST:event_menuExitActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+        NewClientForm newClientForm=new NewClientForm(this,true,idemp);
+        newClientForm.setVisible(true);
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void comboListOfAllClientsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboListOfAllClientsActionPerformed
+        // TODO add your handling code here:
+                    int index=comboListOfAllClients.getSelectedIndex();
+        
+                     jTabbedPane1.removeAll();
+                      if(index>0){
+            
+                       int idc = list.get(index-1).getIdc();
+                       
+                        Client client=new ConnectionProvider().getClient(idc);
+                         PanelInfo jPanelInfo = new PanelInfo(client);
+                          jTabbedPane1.add("Information", jPanelInfo);
+            
+                     PanelAccounts jPanelAccounts=new PanelAccounts(idc,idemp);
+                    jTabbedPane1.add("Accounts", jPanelAccounts);
+                   PanelTransaction jPanelTransaction=new PanelTransaction();
+                  jTabbedPane1.add("Transactions", jPanelTransaction);
+                 PanelCards jPanelCards = new PanelCards();
+                jTabbedPane1.add("Cards", jPanelCards);
+            
+        }
+    }//GEN-LAST:event_comboListOfAllClientsActionPerformed
+
+    private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
+            AboutForm newAboutForm=new AboutForm();
+            newAboutForm.setVisible(true);
+
+
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jMenuItem1ActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JLabel jLabel1;
+    private javax.swing.JComboBox<String> comboListOfAllClients;
+    private javax.swing.JButton jButton1;
+    private javax.swing.JMenu jMenu1;
+    private javax.swing.JMenu jMenu2;
+    private javax.swing.JMenu jMenu3;
+    private javax.swing.JMenu jMenu4;
+    private javax.swing.JMenuBar jMenuBar1;
+    private javax.swing.JMenuItem jMenuItem1;
+    private javax.swing.JSeparator jSeparator1;
+    private javax.swing.JSeparator jSeparator2;
+    private javax.swing.JSeparator jSeparator4;
+    private javax.swing.JTabbedPane jTabbedPane1;
+    private javax.swing.JLabel lblClient;
+    private javax.swing.JLabel lblEmployeeName;
+    private javax.swing.JMenuItem menuChangePassword;
+    private javax.swing.JMenuItem menuExit;
     // End of variables declaration//GEN-END:variables
+
+    private void showListOfClients() {
+        list = new ConnectionProvider().getListOfAllClients();
+        if(list!=null && list.size()>0){
+            for(Client client : list){
+                String item=client.getLastname()+" "+client.getFirstname()+
+                "  ["+client.getDob()+"]";
+                comboListOfAllClients.addItem(item);
+            }
+        }
+    }
+
+    private void initTabs() {
+        
+       
+        
+    }
 }

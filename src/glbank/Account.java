@@ -10,26 +10,26 @@ package glbank;
  * @author Adrián Matta
  */
 public class Account {
-    private long idacc;
-    private int idc;
-    private float balance;
+                  private long idacc;
+                   private int idc;
+                     private float balance;
 
-    public Account(long idacc, int idc, float balance) {
-        this.idacc = idacc;
-        this.idc = idc;
-        this.balance = balance;
+                   public Account(long idacc, int idc, float balance) {
+                 this.idacc = idacc;
+               this.idc = idc;
+            this.balance = balance;
     }
 
-    public long getIdacc() {
-        return idacc;
+                   public long getIdacc() {
+                    return idacc;
     }
 
-    public int getIdc() {
-        return idc;
+                  public int getIdc() {
+                 return idc;
     }
 
-    public float getBalance() {
-        return balance;
+                     public float getBalance() {
+                      return balance;
     }
     
     
